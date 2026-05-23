@@ -80,4 +80,4 @@ jobs:
 
             This package is tied to the target kernel BTF committed in this repository.
             For other devices or kernels, fork the repository and rebuild with that device's BTF.
-          files: haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module_v2.1.zip
+          files: hideSceneport_module.zip
