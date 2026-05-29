@@ -1,15 +1,15 @@
-name: HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
+name: HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
 
 on:
   workflow_dispatch:
     inputs:
       create_release:
-        description: "Create a GitHub Release after building"
+        description: "构建完成后在Github发布"
         required: true
         type: boolean
         default: false
       release_tag:
-        description: "Release tag to create when create_release is true"
+        description: "创建发表时为真时要创建的发布标签"
         required: false
         type: string
         default: "v2.0.1"
@@ -58,18 +58,18 @@ jobs:
 
       - name: Stage module zip
         run: |
-          cp ../hideSceneport_module.zip ./HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
-          ls -lh ./HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
+          cp ../hideSceneport_module.zip ./HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
+          ls -lh ./HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
 
       - name: Unzip module for artifact
         run: |
           mkdir -p ./module_files
-          unzip ./HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip -d ./module_files
+          unzip ./HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip -d ./module_files
 
       - name: Upload module zip
         uses: actions/upload-artifact@v4
         with:
-          name: HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
+          name: HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
           path: ./module_files/
           if-no-files-found: error
 
@@ -83,4 +83,4 @@ jobs:
           body: |
             HideScenePort-v2.1
             haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
-          files: HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
+          files: HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
