@@ -1,8 +1,35 @@
-name: HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701
+name: HideScenePort-eBPF-Build
+
+run-name: HideScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.device }}_${{ inputs.os_version }}
 
 on:
   workflow_dispatch:
     inputs:
+      device:
+        description: "设备型号"
+        required: true
+        type: string
+        default: ""
+      os_version:
+        description: "系统版本"
+        required: true
+        type: string
+        default: ""
+      version:
+        description: "模块版本"
+        required: true
+        type: string
+        default: ""
+      codename:
+        description: "机型代号"
+        required: true
+        type: string
+        default: ""
+      release_body:
+        description: "发布内容"
+        required: false
+        type: string
+        default: ""
       create_release:
         description: "构建完成后在Github发布"
         required: true
@@ -50,18 +77,21 @@ jobs:
 
       - name: Stage module zip
         run: |
-          cp ../hideSceneport_module.zip ./HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701.zip
-          ls -lh ./HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701.zip
+          FULL_NAME="HideScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.device }}_${{ inputs.os_version }}"
+          cp ../hideSceneport_module.zip "./${FULL_NAME}.zip"
+          ls -lh "./${FULL_NAME}.zip"
+          echo "ZIP_FILENAME=${FULL_NAME}.zip" >> "$GITHUB_ENV"
+          echo "RELEASE_NAME=${FULL_NAME}" >> "$GITHUB_ENV"
 
       - name: Unzip module for artifact
         run: |
           mkdir -p ./module_files
-          unzip ./HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701.zip -d ./module_files
+          unzip "./${{ env.ZIP_FILENAME }}" -d ./module_files
 
       - name: Upload module to Actions Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701
+          name: ${{ env.RELEASE_NAME }}
           path: ./module_files/
           if-no-files-found: error
 
@@ -69,11 +99,8 @@ jobs:
         if: ${{ inputs.create_release }}
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701
-          name: HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701
-          body: |
-            一加平板Pro
-            HideScenePort-v2.0.1
-            OPD2404_OnePlusPadPro
-            ColorOS-16.0.5.701
-          files: HideScenePort-v2.0.1_OPD2404_OnePlusPadPro_16.0.5.701.zip
+          tag_name: ${{ env.RELEASE_NAME }}
+          name: ${{ env.RELEASE_NAME }}
+          body: ${{ inputs.release_body }}
+          files: ${{ env.ZIP_FILENAME }}
+          
