@@ -1,4 +1,4 @@
-name: haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1
+name: HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
 
 on:
   workflow_dispatch:
@@ -58,18 +58,18 @@ jobs:
 
       - name: Stage module zip
         run: |
-          cp ../hideSceneport_module.zip ./haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1.zip
-          ls -lh ./haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1.zip
+          cp ../hideSceneport_module.zip ./HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
+          ls -lh ./HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
 
       - name: Unzip module for artifact
         run: |
           mkdir -p ./module_files
-          unzip ./haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1.zip -d ./module_files
+          unzip ./HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip -d ./module_files
 
       - name: Upload module zip
         uses: actions/upload-artifact@v4
         with:
-          name: haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1
+          name: HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
           path: ./module_files/
           if-no-files-found: error
 
@@ -81,8 +81,6 @@ jobs:
           target_commitish: ${{ github.sha }}
           name: Scene Port Hider by eBPF ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}
           body: |
-            KernelSU module built by GitHub Actions.
-
-            This package is tied to the target kernel BTF committed in this repository.
-            For other devices or kernels, fork the repository and rebuild with that device's BTF.
-          files: haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1.zip
+            HideScenePort-v2.1
+            haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
+          files: HideScenePort-v2.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM.zip
