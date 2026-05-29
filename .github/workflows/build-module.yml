@@ -104,6 +104,14 @@ jobs:
           echo -e "$RAW_BODY" >> "$GITHUB_ENV"
           echo "EOF" >> "$GITHUB_ENV"
 
+      - name: Push Annotated Tag
+        if: ${{ inputs.create_release }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ env.RELEASE_NAME }}" -m "Release ${{ env.RELEASE_NAME }}" -f
+          git push origin "${{ env.RELEASE_NAME }}" -f
+
       - name: Create GitHub Release
         if: ${{ inputs.create_release }}
         uses: softprops/action-gh-release@v2
