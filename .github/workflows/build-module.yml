@@ -9,7 +9,7 @@ on:
         type: boolean
         default: false
       release_tag:
-        description: "创建发表时为真时要创建的发布标签"
+        description: "当创建发布为真时要创建的发布标签"
         required: false
         type: string
         default: "v2.0.1"
