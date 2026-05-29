@@ -5,13 +5,13 @@ run-name: HideScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.
 on:
   workflow_dispatch:
     inputs:
-      device:
-        description: "设备型号"
+      codename:
+        description: "机型代号"
         required: true
         type: string
         default: ""
-      codename:
-        description: "机型代号"
+      device:
+        description: "设备型号"
         required: true
         type: string
         default: ""
