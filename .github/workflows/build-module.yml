@@ -68,8 +68,8 @@ jobs:
       - name: Cache Android arm64 dependencies
         uses: actions/cache@v4
         with:
-          path: ~/hideport-deps
-          key: hideport-deps-r25c-${{ runner.os }}-${{ hashFiles('build_deps_android.sh') }}
+          path: ~/hideport-deps  # 保持与你底层 shell 脚本实际生成的绝对路径一致
+          key: hiderport-deps-r25c-${{ runner.os }}-${{ hashFiles('build_deps_android.sh') }}  # 缓存的 Key 成功改用 hider
 
       - name: Build module from BTF
         run: |
@@ -78,7 +78,7 @@ jobs:
       - name: Stage module zip
         run: |
           FULL_NAME="HiderScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.device }}_${{ inputs.os_version }}"
-          cp ../hiderSceneport_module.zip "./${FULL_NAME}.zip"
+          cp ../hideSceneport_module.zip "./${FULL_NAME}.zip"  # ← 修复：读取脚本生成的 hide 文件，但复制并重命名为 Hider...
           ls -lh "./${FULL_NAME}.zip"
           echo "ZIP_FILENAME=${FULL_NAME}.zip" >> "$GITHUB_ENV"
           echo "RELEASE_NAME=${FULL_NAME}" >> "$GITHUB_ENV"
