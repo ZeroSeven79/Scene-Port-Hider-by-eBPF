@@ -1,4 +1,4 @@
-name: haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM
+name: haotian_Xiaomi15Pro_OS3.0.301.0.WOBCNXM-hideSceneport_module-v2.1
 
 on:
   workflow_dispatch:
