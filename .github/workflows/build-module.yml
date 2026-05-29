@@ -100,7 +100,6 @@ jobs:
         env:
           RAW_BODY: ${{ inputs.release_body }}
         run: |
-
           echo "PROCESSED_BODY<<EOF" >> "$GITHUB_ENV"
           echo -e "$RAW_BODY" >> "$GITHUB_ENV"
           echo "EOF" >> "$GITHUB_ENV"
@@ -113,4 +112,5 @@ jobs:
           name: ${{ env.RELEASE_NAME }}
           body: ${{ env.PROCESSED_BODY }}
           files: ${{ env.ZIP_FILENAME }}
+          make_latest: true
           
