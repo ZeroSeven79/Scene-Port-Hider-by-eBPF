@@ -46,6 +46,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install host tools
         run: |
@@ -104,13 +106,14 @@ jobs:
           echo -e "$RAW_BODY" >> "$GITHUB_ENV"
           echo "EOF" >> "$GITHUB_ENV"
 
-      - name: Push Annotated Tag
+      - name: Update Commit Timestamp
         if: ${{ inputs.create_release }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "${{ env.RELEASE_NAME }}" -m "Release ${{ env.RELEASE_NAME }}" -f
-          git push origin "${{ env.RELEASE_NAME }}" -f
+          git commit --allow-empty -m "build: release ${{ env.RELEASE_NAME }}"
+          git push origin HEAD:main
+          echo "NEW_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - name: Create GitHub Release
         if: ${{ inputs.create_release }}
@@ -121,4 +124,4 @@ jobs:
           body: ${{ env.PROCESSED_BODY }}
           files: ${{ env.ZIP_FILENAME }}
           make_latest: true
-          
+          target_commitish: ${{ env.NEW_SHA }}
