@@ -25,11 +25,6 @@ on:
         required: true
         type: string
         default: ""
-      release_body:
-        description: "发布内容"
-        required: false
-        type: string
-        default: ""
       create_release:
         description: "构建完成后在Github发布"
         required: true
@@ -77,11 +72,10 @@ jobs:
 
       - name: Stage module zip
         run: |
-          FULL_NAME="HiderScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.device }}_${{ inputs.os_version }}"
-          cp ../hideSceneport_module.zip "./${FULL_NAME}.zip"
-          ls -lh "./${FULL_NAME}.zip"
-          echo "ZIP_FILENAME=${FULL_NAME}.zip" >> "$GITHUB_ENV"
-          echo "RELEASE_NAME=${FULL_NAME}" >> "$GITHUB_ENV"
+          FILE_NAME="HiderScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.device }}_${{ inputs.os_version }}"
+          cp ../hideSceneport_module.zip "./${FILE_NAME}.zip"
+          ls -lh "./${FILE_NAME}.zip"
+          echo "ZIP_FILENAME=${FILE_NAME}.zip" >> "$GITHUB_ENV"
 
       - name: Unzip module for artifact
         run: |
@@ -91,26 +85,16 @@ jobs:
       - name: Upload module to Actions Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.RELEASE_NAME }}
+          name: HiderScenePort_${{ inputs.version }}
           path: ./module_files/
           if-no-files-found: error
 
-      - name: Format Release Body
-        id: format_body
-        env:
-          RAW_BODY: ${{ inputs.release_body }}
-        run: |
-
-          echo "PROCESSED_BODY<<EOF" >> "$GITHUB_ENV"
-          echo -e "$RAW_BODY" >> "$GITHUB_ENV"
-          echo "EOF" >> "$GITHUB_ENV"
-
-      - name: Create GitHub Release
+      - name: Create or Update GitHub Release
         if: ${{ inputs.create_release }}
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.RELEASE_NAME }}
-          name: ${{ env.RELEASE_NAME }}
-          body: ${{ env.PROCESSED_BODY }}
+          tag_name: HiderScenePort_${{ inputs.version }}
+          name: HiderScenePort_${{ inputs.version }}
           files: ${{ env.ZIP_FILENAME }}
+          make_latest: true
           
