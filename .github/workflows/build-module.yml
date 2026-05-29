@@ -10,6 +10,11 @@ on:
         required: true
         type: string
         default: ""
+      codename:
+        description: "机型代号"
+        required: true
+        type: string
+        default: ""
       os_version:
         description: "系统版本"
         required: true
@@ -17,11 +22,6 @@ on:
         default: ""
       version:
         description: "模块版本"
-        required: true
-        type: string
-        default: ""
-      codename:
-        description: "机型代号"
         required: true
         type: string
         default: ""
@@ -103,4 +103,3 @@ jobs:
           name: ${{ env.RELEASE_NAME }}
           body: ${{ inputs.release_body }}
           files: ${{ env.ZIP_FILENAME }}
-          
