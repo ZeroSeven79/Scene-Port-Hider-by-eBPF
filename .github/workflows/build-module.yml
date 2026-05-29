@@ -72,7 +72,7 @@ jobs:
           tag_name: HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
           name: HideScenePort-v2.0.1_haotian-Xiaomi15Pro_OS3.0.301.0.WOBCNXM
           body: |
-           小米15Pro
+            小米15Pro
             HideScenePort-v2.0.1
             haotian-Xiaomi15Pro
             OS3.0.301.0.WOBCNXM
