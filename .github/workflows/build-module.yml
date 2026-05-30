@@ -2,6 +2,9 @@ name: HiderScenePort-eBPF-Build
 
 run-name: HiderScenePort-${{ inputs.version }}_${{ inputs.codename }}-${{ inputs.device }}_${{ inputs.os_version }}
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch:
     inputs:
@@ -76,6 +79,7 @@ jobs:
           cp ../hideSceneport_module.zip "./${FILE_NAME}.zip"
           ls -lh "./${FILE_NAME}.zip"
           echo "ZIP_FILENAME=${FILE_NAME}.zip" >> "$GITHUB_ENV"
+          echo "ZIP_BASENAME=${FILE_NAME}" >> "$GITHUB_ENV"
 
       - name: Unzip module for artifact
         run: |
@@ -85,7 +89,7 @@ jobs:
       - name: Upload module to Actions Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: HiderScenePort_${{ inputs.version }}
+          name: ${{ env.ZIP_BASENAME }}
           path: ./module_files/
           if-no-files-found: error
 
@@ -97,4 +101,3 @@ jobs:
           name: HiderScenePort_${{ inputs.version }}
           files: ${{ env.ZIP_FILENAME }}
           make_latest: true
-          
